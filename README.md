@@ -1,2 +1,2 @@
 # Login
-Interfaz  para carga de usuario y contraseña con JPA
+Interfaz  para carga de usuario y contraseña con JPA y MySQL
