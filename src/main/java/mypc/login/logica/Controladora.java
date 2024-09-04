@@ -21,7 +21,7 @@ public class Controladora {
         for(Usuario usu: listaUsuario) {
             System.out.println("Usuario: " + usu.getNombreUsuario());
             if(usu.getNombreUsuario().equals(usuario)) {
-                if(usu.getContraseña().equals(contrasenia)) {
+                if(usu.getContrasenia().equals(contrasenia)) {
                     mensaje = "Usuario y contraseña correctos. Bienvenido/a!";
                     return  mensaje;                    
                 }
