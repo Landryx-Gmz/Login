@@ -45,6 +45,10 @@ public class Controladora {
     
     }
 
+    public List<Usuario> traerUsuarios() {
+        return controlPersis.traerUsuarios();
+    }
+
     
 
     

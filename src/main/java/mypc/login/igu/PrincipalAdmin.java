@@ -1,5 +1,7 @@
 package mypc.login.igu;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import mypc.login.logica.Controladora;
 import mypc.login.logica.Usuario;
 
@@ -20,7 +22,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaUsuarios = new javax.swing.JTable();
         btnNuevoUsuario = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
@@ -38,7 +40,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         jLabel1.setText("Sistema Administrador de Usuarios");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -49,10 +51,15 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaUsuarios);
 
         btnNuevoUsuario.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnNuevoUsuario.setText("Crear Nuevo Usuario");
+        btnNuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoUsuarioActionPerformed(evt);
+            }
+        });
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnEditar.setText("Editar Usuario");
@@ -62,6 +69,11 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
         btnRecargar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnRecargar.setText("Recargar Tabla");
+        btnRecargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnSalir.setText("Salir");
@@ -146,12 +158,59 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreUserActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this. txtNombreUser.setText(usr.getNombreUsuario());
+        this.txtNombreUser.setText(usr.getNombreUsuario());
+        cargarTabla();      
+    }                                 
+
+    private void cargarTabla() {
+        //definir el modelo que queremos que tenga la tabla
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+            
+            //que fila y columnas no sean editables
+            @Override
+            public boolean  isCellEditable (int row, int column) {
+                return false;
+            }
+        };
+        
+        //establecemos los nombres de las columnas
+        String titulos[] = {"Id","Ususario","Rol"};
+        //asignamos los nombres de las columnas a la tabla
+        modeloTabla.setColumnIdentifiers(titulos);
+        
+        //traer de la BD la lista de Usuarios
+        List<Usuario> listaUsuarios = control.traerUsuarios();
+        
+        if (listaUsuarios!=null) {
+            //Recorremos lista de usuarios 
+            for(Usuario usu : listaUsuarios){
+                Object[] objeto = {usu.getId(), usu.getNombreUsuario(), usu.getUnRol().getNombreRol()};
+                //Por cada dato de las columnas que encuentre lo agregamos a las filas
+                modeloTabla.addRow(objeto);
+            }
+      
+        }
+               
+        
+        
+        tablaUsuarios.setModel(modeloTabla);
+    
     }//GEN-LAST:event_formWindowOpened
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_btnRecargarActionPerformed
+
+    private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
+        
+        
+        
+        
+    }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
@@ -162,7 +221,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtNombreUser;
     // End of variables declaration//GEN-END:variables
 }
