@@ -1,11 +1,12 @@
 package mypc.login.igu;
 
 import mypc.login.logica.Controladora;
+import mypc.login.logica.Usuario;
 
-public class Principal extends javax.swing.JFrame {
+public class LoginInicial extends javax.swing.JFrame {
     
     Controladora control ;
-    public Principal() {
+    public LoginInicial() {
         initComponents();
         control = new Controladora();
     }
@@ -168,11 +169,32 @@ public class Principal extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         
         String usuario = txtUsuario.getText();
-        String contrasenia = txtContrasenia.getText();        
-        String mensaje = control.validarUsuario(usuario,contrasenia);
+        String contrasenia = txtContrasenia.getText();
         
-        txtMensaje.setText(mensaje);
+        Usuario usr= control.validarUsuario(usuario,contrasenia);
         
+        if (usr != null) {
+          String rol = usr.getUnRol().getNombreRol();
+          
+            if (rol.equals("admin")) {
+                PrincipalAdmin pAdmin = new PrincipalAdmin(control, usr);
+                pAdmin.setVisible(true);
+                pAdmin.setLocationRelativeTo(null);
+                this.dispose();
+            }
+            if (rol.equals("user")) {
+                PrincipalUser pUser = new PrincipalUser(control, usr);
+                pUser.setVisible(true);
+                pUser.setLocationRelativeTo(null);
+                this.dispose();
+
+            }
+            
+        }
+        else{
+            txtMensaje.setText("Ususario o contraseña incorretos");
+        }
+       
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
