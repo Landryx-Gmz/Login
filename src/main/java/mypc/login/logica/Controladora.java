@@ -9,10 +9,8 @@ public class Controladora {
 
     public Controladora() {
         controlPersis = new ControladoraPersistencia();
-    }
-    
-    
-
+    }  
+  
     public Usuario validarUsuario(String usuario, String contrasenia) {
         
         //String mensaje ="";
@@ -20,7 +18,7 @@ public class Controladora {
         List<Usuario>listaUsuario = controlPersis.traerUsuarios();
         
         for(Usuario usu: listaUsuario) {
-            System.out.println("Usuario: " + usu.getNombreUsuario());
+            //System.out.println("Usuario: " + usu.getNombreUsuario());
             if(usu.getNombreUsuario().equals(usuario)) {
                 if(usu.getContrasenia().equals(contrasenia)) {
                     //mensaje = "Usuario y contraseña correctos. Bienvenido/a!";
@@ -47,6 +45,48 @@ public class Controladora {
 
     public List<Usuario> traerUsuarios() {
         return controlPersis.traerUsuarios();
+    }
+
+    public List<Rol> traerRoles() {
+        return controlPersis.traerRoles();
+    }
+
+    public void crearUsuario(String usuario, String contra, String rolRecibido) {
+        
+        Usuario usu = new Usuario();
+        usu.setNombreUsuario(usuario);
+        usu.setContraseña(contra);
+        
+        Rol rolEncontrado = new Rol();
+        rolEncontrado = this.traerRol(rolRecibido);
+        if (rolEncontrado!=null){
+            usu.setUnRol(rolEncontrado);
+        }
+        
+        int id = this.buscarUltimaIdUsuarios();
+        usu.setId(id+1);
+        
+        controlPersis.crearUsuario(usu);
+        
+    }
+
+    private Rol traerRol(String rolRecibido) {
+        List<Rol> listaRoles =controlPersis.traerRoles();
+        
+        for(Rol rol:listaRoles) {
+            if (rol.getNombreRol().equals(rolRecibido)) {
+                return rol;                
+            }
+        } 
+        return null;
+    }
+
+    private int buscarUltimaIdUsuarios() {
+        List<Usuario> listaUsuarios = this.traerUsuarios();
+        
+        Usuario usu = listaUsuarios.get(listaUsuarios.size()-1);        
+        return  usu.getId();
+        
     }
 
     

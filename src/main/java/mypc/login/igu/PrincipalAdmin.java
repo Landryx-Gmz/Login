@@ -207,6 +207,9 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
     private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
         
+        AltaUsuarios altaUsu = new AltaUsuarios(control);
+        altaUsu.setVisible(true);
+        altaUsu.setLocationRelativeTo(null);
         
         
         

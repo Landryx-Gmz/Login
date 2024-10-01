@@ -170,10 +170,8 @@ public class PrincipalUser extends javax.swing.JFrame {
                 modeloTabla.addRow(objeto);
             }
       
-        }
-               
-        
-        
+        }              
+       
         tablaUsuarios.setModel(modeloTabla);
     }
     
