@@ -1,6 +1,8 @@
 package mypc.login.igu;
 
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mypc.login.logica.Controladora;
 import mypc.login.logica.Usuario;
@@ -66,6 +68,11 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
         btnBorrar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnBorrar.setText("Borrar Usuario");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         btnRecargar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnRecargar.setText("Recargar Tabla");
@@ -215,6 +222,48 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        
+        //validar que la tabla tenga elementos
+        if (tablaUsuarios.getRowCount() > 0) {
+            //Controlar que se haya seleccionado un elemnto
+            if (tablaUsuarios.getSelectedRow()!= -1) {
+                //obtengo la id del elemento a eliminar
+                int id_usuario =Integer.parseInt( String.valueOf(tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0)));
+                
+                //Llamo al método borrar
+                control.borrarUsuario(id_usuario);
+                
+                //avisar al usuario que se borró correctamente
+                mostrarMensaje("Se borró el usario correctamente","Info", "Elimincaión Correcta");
+                
+                cargarTabla();                
+            }
+            else {
+                mostrarMensaje("No selecciono ningún registro", "Error", "Error al borrar");
+            }
+            
+        }
+        else{
+            mostrarMensaje("No se encontro ningun registro", "Error", "Error al borrar");
+        }
+        
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    public void mostrarMensaje (String mensaje, String tipo, String titulo) {
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        if (tipo.equals("Info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);                        
+        }
+        else if (tipo.equals("Error")) {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);            
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnEditar;
