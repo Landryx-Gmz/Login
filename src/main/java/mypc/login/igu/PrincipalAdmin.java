@@ -65,6 +65,11 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
         btnEditar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnEditar.setText("Editar Usuario");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnBorrar.setText("Borrar Usuario");
@@ -250,6 +255,38 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnBorrarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       
+        //validar que la tabla tenga elementos
+        if (tablaUsuarios.getRowCount() > 0) {
+            //Controlar que se haya seleccionado un elemnto
+            if (tablaUsuarios.getSelectedRow()!= -1) {
+                //obtengo la id del elemento a eliminar
+                int id_usuario =Integer.parseInt( String.valueOf(tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0)));
+                
+                //Llamo a la ventana de edición
+                EdicionUsuarios pantallaEdic = new EdicionUsuarios(control,id_usuario);
+                pantallaEdic.setVisible(true);
+                pantallaEdic.setLocationRelativeTo(this);
+                
+                
+                
+                
+            }
+            else {
+                mostrarMensaje("No selecciono ningún registro", "Error", "Error al editar");
+            }
+            
+        }
+        else{
+            mostrarMensaje("No se encontro ningun registro", "Error", "Error al editar");
+        }  
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    
+    
+    
+    
     public void mostrarMensaje (String mensaje, String tipo, String titulo) {
         JOptionPane optionPane = new JOptionPane(mensaje);
         if (tipo.equals("Info")) {
